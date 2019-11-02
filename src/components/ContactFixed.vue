@@ -17,49 +17,87 @@
                                 class="black-pink"
                                 primary-title
                         >
-                            Zainteresowany ofertą?
+                            Złóż zamówienie
                         </v-card-title>
 
                         <v-card-text
                                 class="pink-black pt-4"
                         >
-                            <a href="mailto:bacak2@o2.pl">
-                                <v-chip
-                                        pill
-                                        v-on="on"
-                                        class="black-pink"
-                                >
-                                    <v-avatar left>
-                                        <v-img src="https://cdn.vuetifyjs.com/images/john.png"></v-img>
-                                    </v-avatar>
-                                    Jola
-                                </v-chip>
-                            </a>
+                            Masz pytania? Napisz do mnie
+                            <v-chip
+                                pill
+                                v-on="on"
+                                class="black-pink"
+                            >
+                                <v-avatar left>
+                                    <v-img src="https://cdn.vuetifyjs.com/images/john.png"></v-img>
+                                </v-avatar>
+                                <a href="mailto:bacak2@o2.pl">
+                                    bacak2@o2.pl
+                                </a>
+                            </v-chip>
 
                             <v-spacer></v-spacer>
 
                             <div class="mt-3">
-                                Napisz do mnie na adres
-                                <a href="mailto:bacak2@o2.pl">bacak2@o2.pl</a>
-                                w treści podając:
-                                <ul>
-                                    <li>datę przyjazdu</li>
-                                    <li>datę wyjazdu</li>
-                                    <li>liczbę osób</li>
-                                </ul>
+                                <v-form
+                                    ref="form"
+                                    v-model="valid"
+                                >
+                                    <v-select
+                                        v-model="term"
+                                        :items="terms"
+                                        label="Termin"
+                                        placeholder="Wybierz termin"
+                                        :rules="[v => !!v || 'Pole jest wymagane']"
+                                        required
+                                        outlined
+                                    ></v-select>
+                                    <v-select
+                                        v-model="person"
+                                        :items="persons"
+                                        label="Liczba osób"
+                                        placeholder="Wybierz liczbę osób"
+                                        :rules="[v => !!v || 'Pole jest wymagane']"
+                                        required
+                                        outlined
+                                    ></v-select>
+                                    <v-text-field
+                                        v-model="email"
+                                        label="Adres email"
+                                        placeholder="Email będzie służył wyłącznie do kontaktu w sprawie oferty"
+                                        :rules="emailRules"
+                                        required
+                                    ></v-text-field>
+                                    <v-textarea
+                                        v-model="additional_message"
+                                        name="input-7-1"
+                                        label="Dodatkowe uwagi"
+                                        rows="2"
+                                    ></v-textarea>
+                                </v-form>
                             </div>
                         </v-card-text>
 
                         <v-card-actions
-                                class="black-pink"
+                            class="black-pink"
                         >
                             <v-spacer></v-spacer>
                             <v-btn
-                                    class="pink-black"
-                                    text
-                                    @click="dialog = false"
+                                :loading="submitting"
+                                :disabled="!valid || submitting"
+                                @click="submit"
+                                class="pink-black"
+                                text
                             >
-                                Zamknij
+                                Wyślij
+                            </v-btn>
+                            <v-btn
+                                class="danger"
+                                text
+                                @click="dialog = false"
+                            >
+                                Anuluj
                             </v-btn>
                         </v-card-actions>
                     </v-card>
@@ -70,13 +108,62 @@
 </template>
 
 <script>
+    import axios from 'axios';
+
+    const API_ENTRY_POINT = 'http://localhost:8000';
+
     export default {
         name: "ContactFixed",
+        props: ['data'],
         data () {
             return {
                 dialog: false,
+                submitting: false,
+                terms: [],
+                term: null,
+                persons: [1, 2, 3, 4, 5, 6, 7, 8],
+                person: null,
+                valid: false,
+                email: '',
+                emailRules: [
+                    v => !!v || 'Adres email jest wymagany',
+                    v => /.+@.+\..+/.test(v) || 'Adres email musi być poprawny',
+                ],
+                additional_message: ''
             }
         },
+        created() {
+            axios.get(`${API_ENTRY_POINT}/offer-terms/${this.$route.params.id}`).then(
+                (response) => {
+                    this.terms = response.data;
+                }
+            );
+        },
+        methods: {
+            validate () {
+                if (this.$refs.form.validate()) {
+                    this.snackbar = true
+                }
+            },
+            submit () {
+                this.submitting = true;
+                axios.post(`${API_ENTRY_POINT}/offer/${this.$route.params.id}`, {
+                    email: this.email,
+                    person: this.person,
+                    term: this.term,
+                    additional_message:  this.additional_message
+                }).then(
+                    () => {
+                        alert('Zamówienie zostało przyjęte. Niebawem się z Tobą skontaktujemy');
+                        this.dialog = false;
+                    }
+                ).catch(() => {
+                    alert('Przepraszamy, wystąpił problem');
+                }).finally(() => {
+                    this.submitting = false;
+                });
+            }
+        }
     }
 </script>
 
@@ -95,6 +182,6 @@
     }
 
     a {
-        color: #fab !important;
+        color: #18314c !important;
     }
 </style>

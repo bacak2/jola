@@ -4,30 +4,35 @@
             class="pink-black"
         >
             <v-img
-                :src="image"
-                :aspect-ratio="16/9"
-            >
-
-            </v-img>
+                    :src="`http://localhost:8000/img/${data.image}`"
+                    :aspect-ratio="16/9"
+            ></v-img>
             <v-card-title>
-                <div class="display-1 mb-2">Śladami Gry o Tron</div>
-                <div class="title">Dubrovnik, Chorwacja</div>
+                <div class="display-1 mb-2">{{ data.name }}</div>
             </v-card-title>
-
+            <div class="title mx-4">{{ data.location }}</div>
             <v-divider class="mt-6 mx-4"></v-divider>
 
             <v-card-text>
-                <v-chip
-                    class="ma-2 pink-black pink-border"
-                    label
-                    outlined
-                >
-                    <v-icon class="pink-black mr-2">history</v-icon>
-                    Imprezki
-                </v-chip>
+                <v-slide-group multiple show-arrows>
+                    <v-slide-item
+                            v-for="tag in data.tags"
+                            :key="tag.id"
+                            v-slot:default="{ active, toggle }"
+                    >
+                        <v-chip
+                                class="ma-2"
+                                label
+                                outlined
+                        >
+                            <v-icon class="mr-2">{{ tag.icon }}</v-icon>
+                            {{ tag.title }}
+                        </v-chip>
+                    </v-slide-item>
+                </v-slide-group>
             </v-card-text>
 
-            <router-link to="/offer/12">
+            <router-link :to="`/offer/${data.id}`">
                 <v-btn class="black-pink ml-3 mb-3">Szczegóły oferty...</v-btn>
             </router-link>
         </v-card>
@@ -37,20 +42,13 @@
 <script>
     export default {
         name: "OfferListed",
-        data () {
-            return {
-                image: require('@/assets/img/dubrovnik/dubrovnik1.jpg'),
-            }
-        }
+        props: ['data']
     }
 </script>
 
 <style scoped>
     #offerListedWrapper {
-        width: 30%;
-        margin: 0 10px 10px 10px;
         min-width: 200px;
-        display: inline-block;
     }
 
     @media (max-width: 465px) {

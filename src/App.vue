@@ -1,10 +1,10 @@
 <template>
   <v-app id="appWrapper" class="pink-black">
     <v-navigation-drawer
-            v-model="drawer"
-            class="pink-black"
-            app
-            clipped
+      v-model="drawer"
+      class="pink-black"
+      fixed
+      temporary
     >
       <v-list dense>
         <router-link
@@ -87,7 +87,9 @@
       drawer: false,
       items: [
         { icon: 'featured_play_list', text: 'O nas', href: '/about' },
-        { icon: 'trending_up', text: 'Gorące oferty', href: '/offers' },
+        { icon: 'view_list', text: 'Wszystkie oferty', href: '/offers' },
+        { icon: 'whatshot', text: 'Gorące oferty', href: '/hot-offers' },
+        { icon: 'new_releases', text: 'Najnowsze oferty', href: '/new-offers' },
       ]
     }),
     created () {
