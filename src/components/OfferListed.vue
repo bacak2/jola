@@ -35,6 +35,39 @@
             <router-link :to="`/offer/${data.id}`">
                 <v-btn class="black-pink ml-3 mb-3">Szczegóły oferty...</v-btn>
             </router-link>
+
+            <v-bottom-sheet v-model="sheet" inset>
+                <template v-slot:activator="{ on }">
+                    <v-btn v-on="on" class="pink-black mb-3 ml-2 ml-md-5 px-1">
+                        <v-icon class="">date_range</v-icon>
+                        Terminy
+                    </v-btn>
+                </template>
+                <v-sheet class="text-center" min-height="300px">
+                    <v-btn
+                        class="mt-6"
+                        text
+                        color="error"
+                        @click="sheet = !sheet"
+                    >Zamknij</v-btn>
+                    <div class="my-3">
+                        <span class="mb-4">Oferta jest dostępna w terminach:</span>
+                        <div
+                            v-for="term in data.terms"
+                            :key="term.id"
+                        >{{ term.term }}</div>
+                    </div>
+                </v-sheet>
+            </v-bottom-sheet>
+            <v-tooltip top>
+                <template v-slot:activator="{ on }">
+
+                </template>
+                <span>
+                    tool
+
+                </span>
+            </v-tooltip>
         </v-card>
     </div>
 </template>
@@ -42,7 +75,12 @@
 <script>
     export default {
         name: "OfferListed",
-        props: ['data']
+        props: ['data'],
+        data () {
+            return {
+                sheet: false,
+            }
+        },
     }
 </script>
 

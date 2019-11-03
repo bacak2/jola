@@ -23,7 +23,7 @@ class Offer extends Controller
 
         foreach ($offers as $offer) {
             $offer->tags = $this->getOfferTags($offer->id);
-            $offer->tags = $this->getOfferTags($offer->id);
+            $offer->terms = $this->getOfferTerms($offer->id);
         }
 
         return $offers;
@@ -82,6 +82,7 @@ class Offer extends Controller
             ))
             ->where('offer_id', $offerId)
             ->where('is_available', 1)
+            ->where('date_from', '>', date('Y-m-d'))
             ->orderBy('date_from')
             ->pluck('term');
 
@@ -90,12 +91,29 @@ class Offer extends Controller
 
     public function orderOffer($offerId, Request $request)
     {
+        $customerEmail = $request->input('email');
+        $chosenTerm = $request->input('term');
+        $additionalMessage = $request->input('additional_message');
+
         DB::table('orders')->insert([
             'offer_id'          => $offerId,
-            'customer_email'    => $request->input('email'),
-            'term'              => $request->input('term'),
-            'additional_message'=> $request->input('additional_message')
+            'customer_email'    => $customerEmail,
+            'term'              => $chosenTerm,
+            'additional_message'=> $additionalMessage
         ]);
+
+        try {
+            $to      = 'bacak2@o2.pl';
+            $subject = 'Złożono nowe zamówienie do oferty #' . $offerId;
+            $message = 'Mail do kontatku: ' . $customerEmail . "\r\n";
+            $message .= 'Wybrany termin: ' . $chosenTerm . "\r\n";
+
+            if (!empty($additionalMessage)) {
+                $message .= 'Dodatkowa informacja: ' . $additionalMessage . "\r\n";
+            }
+
+            mail($to, $subject, $message);
+        } catch (\Exception $e) {}
 
         return [
             'status' => true

@@ -69,7 +69,7 @@
         },
         data () {
             return {
-                offers: [],
+                offers: [1, 2],
             }
         },
         created() {
