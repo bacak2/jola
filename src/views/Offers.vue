@@ -1,6 +1,5 @@
 <template>
     <div id="offers">
-        <div class="component-description text-center black-pink py-3 mb-5">Oferty</div>
         <v-row>
             <v-col
                     cols="12"
@@ -12,10 +11,10 @@
                 >
                     <v-card
                             :elevation="hover ? 16 : 2"
-                            class="mx-auto black-pink"
+                            class="mx-auto jola-primary"
                             min-height="350"
                     >
-                        <v-card-text class="font-weight-medium mt-12 text-center subtitle-1">
+                        <v-card-text class="font-weight-medium text-center subtitle-1 jola-primary">
                             <h1>Jola</h1>
                             <div>
                                 Tutaj trzeba coś napisać co to są za oferty. Ale krótko, zwięźle ;)
@@ -33,12 +32,12 @@
                         <div class="mx-5 pb-5">
                             <router-link to="/jola-offers">
                                 <v-btn
-                                        class="black-pink"
+                                        class="tom-primary"
                                         style="width: 100%"
                                         elevation="5"
                                         large
                                 >
-                                    Więcej jej ofert...
+                                    Więcej ofert Joli...
                                 </v-btn>
                             </router-link>
                         </div>
@@ -56,10 +55,10 @@
                 >
                     <v-card
                             :elevation="hover ? 16 : 2"
-                            class="mx-auto pink-black"
+                            class="mx-auto tom-primary"
                             min-height="350"
                     >
-                        <v-card-text class="font-weight-medium mt-12 text-center subtitle-1">
+                        <v-card-text class="font-weight-medium text-center subtitle-1 tom-primary">
                             <h1>Tomek</h1>
                             <div>
                                 Tu też...
@@ -77,12 +76,12 @@
                         <div class="mx-5 pb-5">
                             <router-link to="/toms-offers">
                                 <v-btn
-                                        class="black-pink"
+                                        class="jola-primary"
                                         style="width: 100%"
                                         elevation="5"
                                         large
                                 >
-                                    Więcej jego ofert...
+                                    Więcej ofert Tomka...
                                 </v-btn>
                             </router-link>
                         </div>

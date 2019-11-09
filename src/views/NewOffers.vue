@@ -1,7 +1,7 @@
 <template>
     <div id="offers">
-        <div class="component-description text-center black-pink py-3 mb-5">Najnowsze oferty</div>
-        <div class="component-description text-center pink-black py-3 mb-5">Świerzutkie oferty- zamów jako pierwszy</div>
+        <div class="component-description text-center jola-primary py-3 mb-5">Najnowsze oferty</div>
+        <div class="component-description text-center jola-secondary py-3 mb-5">Świerzutkie oferty- zamów jako pierwszy</div>
         <v-row>
             <v-col
                 cols="12"

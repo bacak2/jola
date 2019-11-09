@@ -10,6 +10,14 @@ class Offer extends Controller
 {
     public function getOffers($options = null, $limit = 12, $owner = null)
     {
+        if ($options === 'new') {
+            $orderBy = 'created';
+            $orderByDirection = 'DESC';
+        } else {
+            $orderBy = 'order_priority';
+            $orderByDirection = 'ASC';
+        }
+
         $offers = DB::table('offers')
             ->where(function ($query) use ($options, $owner) {
                 if ($options === 'hot') {
@@ -21,7 +29,7 @@ class Offer extends Controller
                 }
             })
             ->where('active', 1)
-            ->orderBy('created', 'DESC')
+            ->orderBy($orderBy, $orderByDirection)
             ->limit($limit)
             ->get();
 

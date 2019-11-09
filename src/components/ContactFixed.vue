@@ -1,39 +1,39 @@
 <template>
     <div id="contactFixedWrapper">
-        <div id="contact" class="pink-black">
+        <div id="contact" :class="firstCssClass">
             <div class="text-center">
                 <v-dialog
                         v-model="dialog"
                         width="500"
                 >
                     <template v-slot:activator="{ on }">
-                        <v-btn v-on="on" class="black-pink">
+                        <v-btn v-on="on" :class="secondCssClass">
                             Zainteresowany ofertą?
                         </v-btn>
                     </template>
 
                     <v-card>
                         <v-card-title
-                                class="black-pink"
+                                :class="firstCssClass"
                                 primary-title
                         >
                             Złóż zamówienie
                         </v-card-title>
 
                         <v-card-text
-                                class="pink-black pt-4"
+                                class="jola-secondary pt-4"
                         >
                             Masz pytania? Napisz do mnie
                             <v-chip
                                 pill
                                 v-on="on"
-                                class="black-pink"
+                                :class="firstCssClass"
                             >
                                 <v-avatar left>
                                     <v-img src="https://cdn.vuetifyjs.com/images/john.png"></v-img>
                                 </v-avatar>
-                                <a href="mailto:bacak2@o2.pl">
-                                    bacak2@o2.pl
+                                <a :href="'mailto:' + owner_settings.email">
+                                    {{ owner_settings.email }}
                                 </a>
                             </v-chip>
 
@@ -83,20 +83,20 @@
                         </v-card-text>
 
                         <v-card-actions
-                            class="black-pink"
+                            :class="firstCssClass"
                         >
                             <v-spacer></v-spacer>
                             <v-btn
                                 :loading="submitting"
                                 :disabled="!valid || submitting"
                                 @click="submit"
-                                class="pink-black"
+                                :class="secondCssClass"
                                 text
                             >
                                 Wyślij
                             </v-btn>
                             <v-btn
-                                class="danger"
+                                :class="firstCssClass"
                                 text
                                 @click="dialog = false"
                             >
@@ -117,7 +117,11 @@
 
     export default {
         name: "ContactFixed",
-        props: ['data'],
+        props: [
+            'data',
+            'firstCssClass',
+            'secondCssClass'
+        ],
         data () {
             return {
                 dialog: false,
@@ -132,7 +136,8 @@
                     v => !!v || 'Adres email jest wymagany',
                     v => /.+@.+\..+/.test(v) || 'Adres email musi być poprawny',
                 ],
-                additional_message: ''
+                additional_message: '',
+                owner_settings: []
             }
         },
         created() {
@@ -146,6 +151,8 @@
                 }
             }).then(() => {
                 this.getAvailableSpots(this.terms[0].id);
+            }).then(() => {
+                this.getOwnerSettings(this.data.offer.owner);
             });
         },
         methods: {
@@ -175,10 +182,17 @@
             },
 
             getAvailableSpots (termId) {
-                console.log(termId);
                 axios.get(`${API_ENTRY_POINT}/available-spots/${termId}`).then(
                     (response) =>{
                         this.persons = Array.from({length: response.data}, (v, k) => ++k);
+                    }
+                )
+            },
+
+            getOwnerSettings (ownerName) {
+                axios.get(`${API_ENTRY_POINT}/owner-settings/${ownerName}`).then(
+                    (response) =>{
+                        this.owner_settings = response.data;
                     }
                 )
             }
@@ -197,10 +211,10 @@
     #contact {
         padding: 20px;
         border-radius: 25px;
-        border: 2px solid #fab;
+        border: 2px solid #fff;
     }
 
     a {
-        color: #18314c !important;
+        color: #fff !important;
     }
 </style>

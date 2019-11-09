@@ -24,3 +24,5 @@ Route::post('offer/{id}', 'Offer@orderOffer');
 Route::get('offer-terms/{id}', 'Offer@getOfferTerms');
 
 Route::get('available-spots/{id}', 'Offer@getOfferTermAvailableSpots');
+
+Route::get('owner-settings/{ownerName}', 'Owner@getOwnerSettings');

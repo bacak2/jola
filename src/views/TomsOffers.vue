@@ -1,6 +1,6 @@
 <template>
     <div id="offers">
-        <div class="component-description text-center black-pink py-3 mb-5">Oferty Tomka</div>
+        <div class="component-description text-center tom-primary py-3 mb-5">Oferty Tomka</div>
         <v-row>
             <v-col
                 cols="12"

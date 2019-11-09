@@ -2,13 +2,13 @@
     <div id="about">
         <aboutUs />
 
-        <p class="black-pink py-5">
+        <p class="jola-primary py-5">
             Coś więcej niż na stronie głównej...
         </p>
-        <p class="pink-black">
+        <p class="jola-first">
             Coś więcej niż na stronie głównej...
         </p>
-        <p class="black-pink py-5">
+        <p class="jola-primary py-5">
             Coś więcej niż na stronie głównej...
         </p>
     </div>
