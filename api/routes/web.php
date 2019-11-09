@@ -22,3 +22,5 @@ Route::get('offer/{id}', 'Offer@getOffer');
 Route::post('offer/{id}', 'Offer@orderOffer');
 
 Route::get('offer-terms/{id}', 'Offer@getOfferTerms');
+
+Route::get('available-spots/{id}', 'Offer@getOfferTermAvailableSpots');

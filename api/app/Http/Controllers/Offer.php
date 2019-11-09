@@ -11,9 +11,13 @@ class Offer extends Controller
     public function getOffers($options = null, $limit = 12, $owner = null)
     {
         $offers = DB::table('offers')
-            ->where(function ($query) use ($options) {
+            ->where(function ($query) use ($options, $owner) {
                 if ($options === 'hot') {
                     $query->where('is_hot', 1);
+                }
+
+                if ($owner !== null) {
+                    $query->where('owner', $owner);
                 }
             })
             ->where('active', 1)
@@ -79,12 +83,12 @@ class Offer extends Controller
                  " (", DATEDIFF(date_to, date_from), " dni)"
                  " (", price, " zł / os.)"
                  ) AS term'
-            ))
+            ), 'id')
             ->where('offer_id', $offerId)
             ->where('is_available', 1)
             ->where('date_from', '>', date('Y-m-d'))
             ->orderBy('date_from')
-            ->pluck('term');
+            ->get();
 
         return $offersTerms;
     }
@@ -92,13 +96,17 @@ class Offer extends Controller
     public function orderOffer($offerId, Request $request)
     {
         $customerEmail = $request->input('email');
-        $chosenTerm = $request->input('term');
+        $chosenTermId = $request->input('term');
         $additionalMessage = $request->input('additional_message');
+        $persons = $request->input('person');
+
+        $chosenTerm = $this->getOfferTerm($chosenTermId);
 
         DB::table('orders')->insert([
             'offer_id'          => $offerId,
             'customer_email'    => $customerEmail,
             'term'              => $chosenTerm,
+            'persons'           => $persons,
             'additional_message'=> $additionalMessage
         ]);
 
@@ -107,6 +115,7 @@ class Offer extends Controller
             $subject = 'Złożono nowe zamówienie do oferty #' . $offerId;
             $message = 'Mail do kontatku: ' . $customerEmail . "\r\n";
             $message .= 'Wybrany termin: ' . $chosenTerm . "\r\n";
+            $message .= 'Liczba osób' . $persons . "\r\n";
 
             if (!empty($additionalMessage)) {
                 $message .= 'Dodatkowa informacja: ' . $additionalMessage . "\r\n";
@@ -118,5 +127,32 @@ class Offer extends Controller
         return [
             'status' => true
         ];
+    }
+
+    private function getOfferTerm($termId)
+    {
+        $offerTerm = DB::table('offers_terms')
+            ->select(DB::raw(
+                'CONCAT(date_format(date_from, "%d.%m.%Y"),
+                 " - ", date_format(date_to, "%d.%m.%Y"),
+                 " (", DATEDIFF(date_to, date_from), " dni)"
+                 " (", price, " zł / os.)"
+                 ) AS term'
+            ))
+            ->where('id', $termId)
+            ->pluck('term')
+            ->first();
+
+        return $offerTerm;
+    }
+
+    public function getOfferTermAvailableSpots($termId)
+    {
+        $availableSpots = DB::table('offers_terms')
+            ->where('id', $termId)
+            ->pluck('available_spots')
+            ->first();
+
+        return $availableSpots;
     }
 }

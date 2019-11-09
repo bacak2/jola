@@ -5,6 +5,8 @@ import About from './views/About.vue';
 import Offers from './views/Offers.vue';
 import NewOffers from './views/NewOffers.vue';
 import HotOffers from './views/HotOffers.vue';
+import JolasOffers from './views/JolasOffers.vue';
+import TomsOffers from './views/TomsOffers.vue';
 import Offer from './views/Offer.vue';
 
 Vue.use(Router);
@@ -35,6 +37,16 @@ export  default new Router({
             path: '/hot-offers',
             name: 'hot-offers',
             component: HotOffers,
+        },
+        {
+            path: '/jola-offers',
+            name: 'jola-offers',
+            component: JolasOffers,
+        },
+        {
+            path: '/toms-offers',
+            name: 'toms-offers',
+            component: TomsOffers,
         },
         {
             path: '/offer/:id',

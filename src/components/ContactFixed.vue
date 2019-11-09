@@ -47,6 +47,9 @@
                                     <v-select
                                         v-model="term"
                                         :items="terms"
+                                        @change="getAvailableSpots"
+                                        item-text="term"
+                                        item-value="id"
                                         label="Termin"
                                         placeholder="Wybierz termin"
                                         :rules="[v => !!v || 'Pole jest wymagane']"
@@ -121,7 +124,7 @@
                 submitting: false,
                 terms: [],
                 term: null,
-                persons: [1, 2, 3, 4, 5, 6, 7, 8],
+                persons: [],
                 person: null,
                 valid: false,
                 email: '',
@@ -137,7 +140,13 @@
                 (response) => {
                     this.terms = response.data;
                 }
-            );
+            ).then(() => {
+                if (this.terms.length === 1) {
+                    this.term = this.terms[0];
+                }
+            }).then(() => {
+                this.getAvailableSpots(this.terms[0].id);
+            });
         },
         methods: {
             validate () {
@@ -145,6 +154,7 @@
                     this.snackbar = true
                 }
             },
+
             submit () {
                 this.submitting = true;
                 axios.post(`${API_ENTRY_POINT}/offer/${this.$route.params.id}`, {
@@ -162,6 +172,15 @@
                 }).finally(() => {
                     this.submitting = false;
                 });
+            },
+
+            getAvailableSpots (termId) {
+                console.log(termId);
+                axios.get(`${API_ENTRY_POINT}/available-spots/${termId}`).then(
+                    (response) =>{
+                        this.persons = Array.from({length: response.data}, (v, k) => ++k);
+                    }
+                )
             }
         }
     }
