@@ -17,7 +17,7 @@
         <div class="mb-4" style="height: 80px">
             <router-link to="/new-offers">
                 <v-btn
-                        class="slideButton px-5 mt-4 float-right jola-primary"
+                        class="moreButton px-5 mt-4 float-right jola-primary"
                         elevation="20"
                         large
                 >
@@ -29,7 +29,7 @@
         <div class="mb-4" style="height: 80px">
             <router-link to="/about">
                 <v-btn
-                    class="slideButton px-5 mt-4 float-right jola-primary"
+                    class="moreButton px-5 mt-4 float-right jola-primary"
                     elevation="20"
                     large
                 >

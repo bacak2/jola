@@ -33,22 +33,25 @@
             dense
     >
         <v-app-bar-nav-icon class="jola-primary" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-        <v-row style="margin-left: -62px; width: 100%; height: 100%;">
-            <v-col cols="6" class="px-0 py-0">
-                <router-link to="jola-offers" style="float: right;">
-                    <div class="jola-primary py-3 pr-4" style="height: 100%; margin-left: 62px;">
-                        <v-icon class="jola-primary">face</v-icon>
-                        Jola
-                    </div>
+        <v-row style="margin-left: -62px; width: 100%; height: 100%;" justify="center" align="center">
+          <v-col cols="1" class="px-0 py-0"></v-col>
+            <v-col cols="10" class="px-0 py-0 mt-1" align="center" justify="center">
+                <router-link to="/" class="jola-primary">
+                  <v-icon class="jola-primary mb-1">face</v-icon>
+                  <span class="mt-2">JolaTomek</span>
+                  <v-icon class="jola-primary mb-1">sentiment_satisfied_alt</v-icon>
                 </router-link>
             </v-col>
-            <v-col cols="6" class="px-0 py-0">
-                <router-link to="toms-offers">
-                    <div class="tom-primary py-3 pl-4" style="height: 100%;">
-                        Tomek
-                        <v-icon class="tom-primary">sentiment_satisfied_alt</v-icon>
-                    </div>
-                </router-link>
+            <v-col cols="1" class="px-0 py-0">
+              <a href="https://facebook.com" class="mr-2">
+                <v-icon class="jola-primary">fab fa-facebook-square</v-icon>
+              </a>
+              <a href="https://facebook.com" class="mr-2">
+                <v-icon class="jola-primary">fab fa-instagram-square</v-icon>
+              </a>
+              <a href="https://facebook.com">
+                <v-icon class="jola-primary">fab fa-pinterest-square</v-icon>
+              </a>
             </v-col>
         </v-row>
     </v-app-bar>
@@ -76,6 +79,16 @@
         <router-link to="/offers" class="px-4 footer-link">
           <v-btn rounded outlined class="my-2 tom-secondary">Oferty</v-btn>
         </router-link>
+        <a href="https://facebook.com" class="mr-2 mt-3">
+          <v-icon class="jola-primary">fab fa-facebook-square</v-icon>
+        </a>
+        <a href="https://facebook.com" class="mr-2 mt-3">
+          <v-icon class="jola-primary">fab fa-instagram-square</v-icon>
+        </a>
+        <a href="https://facebook.com" class="mt-3">
+          <v-icon class="jola-primary">fab fa-pinterest-square</v-icon>
+        </a>
+
 
         <v-col
           class="tom-secondary py-4 text-center"
@@ -111,23 +124,26 @@
 
 <style>
   .jola-secondary {
-    color: #006030 !important;
-    background-color: #eeeeee !important;
+    color: #00a8bb !important;
+    background-color: #e6e6e6 !important;
+    text-shadow: none;
   }
 
   .jola-primary {
-    color: #eeeeee !important;
-    background-color: #006030 !important;
+    color: #ff732f !important;
+    background-color: #00a8bb !important;
+    text-shadow: #c14a02 1px 1px;
   }
 
   .tom-primary {
-    color: #eeeeee !important;
-    background-color: #724f11 !important;
+    color: #e6e6e6 !important;
+    background-color: #00a8bb !important;
   }
 
   .tom-secondary {
-    color: #724f11 !important;
+    color: #827f7b !important;
     background-color: #eeeeee !important;
+    text-shadow: #a4a4a4 1px 1px;
   }
 
   #offers {
@@ -143,13 +159,19 @@
     text-decoration: none;
   }
 
-    .v-toolbar__content {
-         padding-right: 0 !important;
-     }
+  .v-toolbar__content {
+       padding-right: 0 !important;
+   }
 
-    header {
-        min-height: 50px !important;
-    }
+  header {
+      min-height: 50px !important;
+  }
+
+  .moreButton {
+    color: #00a8bb !important;
+    background-color: #ff732f !important;
+    text-shadow: #c14a02 1px 1px;
+  }
 
   @media (max-width: 465px) {
       .footer-link, .footer-link > button {
