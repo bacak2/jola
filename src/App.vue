@@ -34,15 +34,15 @@
     >
         <v-app-bar-nav-icon class="jola-primary" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
         <v-row style="margin-left: -62px; width: 100%; height: 100%;" justify="center" align="center">
-          <v-col cols="1" class="px-0 py-0"></v-col>
-            <v-col cols="10" class="px-0 py-0 mt-1" align="center" justify="center">
+          <v-col cols="2" class="px-0 py-0"></v-col>
+            <v-col cols="8" class="px-0 py-0 mt-1" align="center" justify="center">
                 <router-link to="/" class="jola-primary">
                   <v-icon class="jola-primary mb-1">face</v-icon>
                   <span class="mt-2">JolaTomek</span>
                   <v-icon class="jola-primary mb-1">sentiment_satisfied_alt</v-icon>
                 </router-link>
             </v-col>
-            <v-col cols="1" class="px-0 py-0">
+            <v-col cols="2" class="px-0 py-0">
               <a href="https://facebook.com" class="mr-2">
                 <v-icon class="jola-primary">fab fa-facebook-square</v-icon>
               </a>
